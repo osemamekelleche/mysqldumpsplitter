@@ -279,7 +279,7 @@ dump_splitter()
                         #Loop for each tablename found in provided dumpfile
                         echo "Extracting $MATCH_STR."
                         #Extract table specific dump to tablename.sql
-                        $DECOMPRESSION  $SOURCE | sed -n "/^-- Table structure for table \`$MATCH_STR\`/,/^-- Table structure for table/p" | $COMPRESSION >> $OUTPUT_DIR/$MATCH_STR.$EXT
+                        $DECOMPRESSION  $SOURCE | sed -n "/^-- Table structure for table \`$MATCH_STR\`/,/^-- Table structure for table/p" | sed -n "/^-- Table structure for table \`$MATCH_STR\`/,/^-- Temporary table structure for view/p" | sed -n "/^-- Table structure for table \`$MATCH_STR\`/,/^DELIMITER/p" | sed "/^DELIMITER/d" | $COMPRESSION >> $OUTPUT_DIR/$MATCH_STR.$EXT
                         echo "${txtbld} Table $MATCH_STR  extracted from $SOURCE at $OUTPUT_DIR${txtrst}"
                         ;;
 
